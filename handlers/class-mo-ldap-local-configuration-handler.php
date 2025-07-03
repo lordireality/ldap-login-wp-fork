@@ -779,8 +779,27 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				$search_filter      = str_replace( '?', $username, $search_filter );
 
 				$email_attribute = strtolower( get_option( 'mo_ldap_local_email_attribute' ) );
-				//TODO: вывод атрибутов в AttributeMappingTest
+				//фамилия, имя, отчество, позиция
+				$lastname_attribute = strtolower( get_option( 'mo_ldap_local_lastname_attribute' ) );
+				$firstname_attribute = strtolower( get_option( 'mo_ldap_local_firstname_attribute' ) );
+				$middlename_attribute = strtolower( get_option( 'mo_ldap_local_middlename_attribute' ) );
+				$position_attribute = strtolower( get_option( 'mo_ldap_local_position_attribute' ) );
+				
 				$attr            = array( $email_attribute );
+				
+				//если заполнены атрибуты они будут участвовать в дебаге
+				if($lastname_attribute != ''){
+					array_push( $attr, $lastname_attribute );
+				}
+				if($firstname_attribute != ''){
+					array_push( $attr, $firstname_attribute );
+				}
+				if($middlename_attribute != ''){
+					array_push( $attr, $middlename_attribute );
+				}
+				if($position_attribute != ''){
+					array_push( $attr, $position_attribute );
+				}
 				$ldapconn        = $this->get_connection();
 
 				if( empty( $search_bases ) || empty( $search_filter ) ) {
@@ -871,10 +890,11 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 										</div>
 									</div>
 									<hr style="width: 85%;">
-									<div class="mo_ldap_local_user_info">
+									<div class="mo_ldap_local_user_info" style="display: block !important;">
 										<?php
 										foreach ( $attr as $attribute ) {
 											?>
+											<br>
 											<div class="mo_ldap_local_attribute"><strong><?php echo esc_html( $attribute ); ?>: </strong></div>
 											<div>
 												<?php
