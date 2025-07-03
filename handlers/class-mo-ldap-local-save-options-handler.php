@@ -870,10 +870,10 @@ if ( ! class_exists( 'Mo_Ldap_Local_Save_Options_Handler' ) ) {
 					//кусок кода, который отвечает за отработку пост формы при сохранении настройки плагина
 					$email_attribute         = isset( $_POST['mo_ldap_email_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
 					$email_domain            = isset( $_POST['mo_ldap_email_domain'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_domain'] ) ) : '';
-					$firstname_attribute 	 = isset( $_POST['mo_ldap_firstname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
-					$lastname_attribute      = isset( $_POST['mo_ldap_lastname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
-					$middlename_attribute    = isset( $_POST['mo_ldap_middlename_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
-					$position_attribute      = isset( $_POST['mo_ldap_position_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
+					$firstname_attribute 	 = isset( $_POST['mo_ldap_firstname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_firstname_attribute'] ) ) : '';
+					$lastname_attribute      = isset( $_POST['mo_ldap_lastname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_lastname_attribute'] ) ) : '';
+					$middlename_attribute    = isset( $_POST['mo_ldap_middlename_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_middlename_attribute'] ) ) : '';
+					$position_attribute      = isset( $_POST['mo_ldap_position_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_position_attribute'] ) ) : '';
 
 					$domain_validation_regex = '/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/';
 					if ( ! preg_match( $domain_validation_regex, $email_domain ) && ! empty( $email_domain ) ) {
