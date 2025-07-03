@@ -867,8 +867,14 @@ if ( ! class_exists( 'Mo_Ldap_Local_Save_Options_Handler' ) ) {
 						wp_redirect( admin_url( 'admin.php?page=mo_ldap_local_login&step=3' ) );
 					}
 				} elseif ( strcmp( $post_option, 'mo_ldap_save_attribute_config' ) === 0 && check_admin_referer( 'mo_ldap_save_attribute_config' ) ) {
+					//кусок кода, который отвечает за отработку пост формы при сохранении настройки плагина
 					$email_attribute         = isset( $_POST['mo_ldap_email_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
 					$email_domain            = isset( $_POST['mo_ldap_email_domain'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_domain'] ) ) : '';
+					$firstname_attribute 	 = isset( $_POST['mo_ldap_firstname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
+					$lastname_attribute      = isset( $_POST['mo_ldap_lastname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
+					$middlename_attribute    = isset( $_POST['mo_ldap_middlename_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
+					$position_attribute      = isset( $_POST['mo_ldap_position_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_email_attribute'] ) ) : '';
+
 					$domain_validation_regex = '/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/';
 					if ( ! preg_match( $domain_validation_regex, $email_domain ) && ! empty( $email_domain ) ) {
 						update_option( 'mo_ldap_local_message', 'Please enter the domain name in valid format' );
@@ -876,6 +882,18 @@ if ( ! class_exists( 'Mo_Ldap_Local_Save_Options_Handler' ) ) {
 					} else {
 						update_option( 'mo_ldap_local_email_attribute', $email_attribute );
 						update_option( 'mo_ldap_local_email_domain', $email_domain );
+						
+						//UPD: Исходя из документации в update_option, если опции нет - она будет создана в бд
+						//first name - имя
+						update_option( 'mo_ldap_local_firstname_attribute', $firstname_attribute);
+						//lastname - фамилия
+						update_option( 'mo_ldap_local_lastname_attribute', $lastname_attribute);
+						//middlename отчество
+						update_option( 'mo_ldap_local_middlename_attribute', $middlename_attribute);
+
+						//должность
+						update_option( 'mo_ldap_local_position_attribute', $position_attribute);
+						
 						update_option( 'mo_ldap_local_message', 'Successfully saved LDAP Attribute Configuration' );
 						$this->utils->show_success_message();
 					}
