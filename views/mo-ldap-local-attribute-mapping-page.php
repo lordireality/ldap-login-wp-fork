@@ -77,7 +77,7 @@
 								<label for="ldap_intranet_attribute_lastname" class="mo_ldap_input_label_text">Фамилия</label>
 							</div>
 							<div class="mo_ldap_premium_freature_input_common mo_ldap_premium_feature_input">
-								<input type="text" id="ldap_intranet_attribute_lastname" name="mo_ldap_lastname_attribute" placeholder="Введите наименование атрибута Фамилии" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_lastname_attribute' ) ); ?>">
+								<input type="text" id="ldap_intranet_attribute_lastname" name="mo_ldap_lastname_attribute" placeholder="Введите наименование атрибута Фамилии" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_lastname_attribute' ) ); ?>">
 							</div>
 						</div>
 						<!--Имя-->
@@ -86,7 +86,7 @@
 								<label for="ldap_intranet_attribute_firstname" class="mo_ldap_input_label_text">Имя</label>
 							</div>
 							<div class="mo_ldap_premium_freature_input_common mo_ldap_premium_feature_input">
-								<input type="text" id="ldap_intranet_attribute_firstname" name="mo_ldap_firstname_attribute" placeholder="Введите наименование атрибута Имя" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_firstname_attribute' ) ); ?>">
+								<input type="text" id="ldap_intranet_attribute_firstname" name="mo_ldap_firstname_attribute" placeholder="Введите наименование атрибута Имя" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_firstname_attribute' ) ); ?>">
 							</div>
 						</div>
 						<!--Отчество-->
@@ -95,7 +95,7 @@
 								<label for="ldap_intranet_attribute_middlename" class="mo_ldap_input_label_text">Отчество</label>
 							</div>
 							<div class="mo_ldap_premium_freature_input_common mo_ldap_premium_feature_input">
-								<input type="text" id="ldap_intranet_attribute_middlename" name="mo_ldap_middlename_attribute" placeholder="Введите наименование атрибута Отчество" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_middlename_attribute' ) ); ?>">
+								<input type="text" id="ldap_intranet_attribute_middlename" name="mo_ldap_middlename_attribute" placeholder="Введите наименование атрибута Отчество" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_middlename_attribute' ) ); ?>">
 							</div>
 						</div>
 						<!--Должность-->
@@ -104,7 +104,7 @@
 								<label for="ldap_intranet_attribute_position" class="mo_ldap_input_label_text">Должность</label>
 							</div>
 							<div class="mo_ldap_premium_freature_input_common mo_ldap_premium_feature_input">
-								<input type="text" id="ldap_intranet_attribute_position" name="mo_ldap_position_attribute" placeholder="Введите наименование атрибута Должность" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_position_attribute' ) ); ?>">
+								<input type="text" id="ldap_intranet_attribute_position" name="mo_ldap_position_attribute" placeholder="Введите наименование атрибута Должность" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_position_attribute' ) ); ?>">
 							</div>
 						</div>
 
