@@ -69,14 +69,33 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				$ldap_bind_password = get_option( 'mo_ldap_local_server_password' ) ? $this->utils::decrypt( get_option( 'mo_ldap_local_server_password' ) ) : '';
 
 				$email_attribute         = strtolower( get_option( 'mo_ldap_local_email_attribute' ) );
+				$lastname_attribute = strtolower( get_option( 'mo_ldap_local_lastname_attribute' ) );
+				$firstname_attribute = strtolower( get_option( 'mo_ldap_local_firstname_attribute' ) );
+				$middlename_attribute = strtolower( get_option( 'mo_ldap_local_middlename_attribute' ) );
+				$position_attribute = strtolower( get_option( 'mo_ldap_local_position_attribute' ) );
 				$search_filter_attribute = strtolower( get_option( 'Filter_search' ) );
 
-				$attr = array();
+				$attr = array();		
 				if ( isset( $email_attribute ) && ! empty( $email_attribute ) ) {
 					array_push( $attr, $email_attribute );
 				}
 				if ( isset( $search_filter_attribute ) && ! empty( $search_filter_attribute ) ) {
 					array_push( $attr, $search_filter_attribute );
+				}
+				//Фамилия имя отчество.
+				//Тут необходимо было добавить, т.к. далее используется ldap_search
+				//а он возвращает атрибуты только в случае если их прямо запросить
+				if ( isset( $lastname_attribute ) && ! empty( $lastname_attribute ) ) {
+					array_push( $attr, $lastname_attribute );
+				}
+				if ( isset( $firstname_attribute ) && ! empty( $firstname_attribute ) ) {
+					array_push( $attr, $firstname_attribute );
+				}
+				if ( isset( $middlename_attribute ) && ! empty( $middlename_attribute ) ) {
+					array_push( $attr, $middlename_attribute );
+				}
+				if ( isset( $position_attribute ) && ! empty( $position_attribute ) ) {
+					array_push( $attr, $position_attribute );
 				}
 				$username = ldap_escape( $username, '', LDAP_ESCAPE_FILTER );
 
@@ -110,7 +129,13 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				}
 
 				if ( ( ! empty( $search_base_string ) && ! empty( $filter ) ) && ldap_search( $ldapconn, $search_base_string, $filter, $attr ) ) {
+					//
+					//Тут используется дефолтный ldap_search из php
+					//позор, весь плагин, это literally over-engineer'ед обертка над дефолтным функционалом
+					//
+					//https://www.php.net/manual/en/function.ldap-search.php
 					$user_search_result = ldap_search( $ldapconn, $search_base_string, $filter, $attr );
+
 				} else {
 					$auth_response                 = new Mo_Ldap_Local_Auth_Response_Helper();
 					$auth_response->status         = false;
@@ -141,6 +166,19 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 
 					if ( ! empty( $email_attribute ) && isset( $entry[0][ $email_attribute ][0] ) ) {
 						$profile_attributes['mail'] = $entry[0][ $email_attribute ][0];
+					}
+					//фамилия, имя, отчество, должность
+					if ( ! empty( $lastname_attribute ) && isset( $entry[0][ $lastname_attribute ][0] ) ) {
+						$profile_attributes['lastname'] = $entry[0][ $lastname_attribute ][0];
+					}
+					if ( ! empty( $firstname_attribute ) && isset( $entry[0][ $firstname_attribute ][0] ) ) {
+						$profile_attributes['firstname'] = $entry[0][ $firstname_attribute ][0];
+					}
+					if ( ! empty( $middlename_attribute ) && isset( $entry[0][ $middlename_attribute ][0] ) ) {
+						$profile_attributes['middlename'] = $entry[0][ $middlename_attribute ][0];
+					}
+					if ( ! empty( $position_attribute ) && isset( $entry[0][ $position_attribute ][0] ) ) {
+						$profile_attributes['position'] = $entry[0][ $position_attribute ][0];
 					}
 
 					$authentication_response->profile_attributes_list = $profile_attributes;
