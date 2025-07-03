@@ -779,6 +779,7 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				$search_filter      = str_replace( '?', $username, $search_filter );
 
 				$email_attribute = strtolower( get_option( 'mo_ldap_local_email_attribute' ) );
+				//TODO: вывод атрибутов в AttributeMappingTest
 				$attr            = array( $email_attribute );
 				$ldapconn        = $this->get_connection();
 

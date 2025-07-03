@@ -38,6 +38,11 @@ if ( ! class_exists( 'MO_LDAP_Config_Details' ) ) {
 		const KEEP_EXSTING_ROLE             = 'mo_ldap_local_keep_existing_user_roles';
 		const LOCAL_EMAIL_DOMAIN            = 'mo_ldap_local_email_domain';
 		const MAIL                          = 'mo_ldap_local_email_attribute';
+		//i have no блядская идея зачем эти константы нужны
+		const FIRSTNAME                     = 'mo_ldap_local_firstname_attribute';
+		const LASTNAME                      = 'mo_ldap_local_lastname_attribute';
+		const MIDDLENAME                    = 'mo_ldap_local_middlename_attribute';
+		const POSITION                      = 'mo_ldap_local_position_attribute';
 		const PLUGIN_VERSION                = 'mo_ldap_local_current_plugin_version';
 	}
 }
