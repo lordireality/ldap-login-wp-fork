@@ -112,7 +112,29 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 					update_user_meta( $user->ID, 'mo_ldap_user_dn', $auth_response->user_dn, false );
 
 					$profile_attributes = $auth_response->profile_attributes_list;
+					
+					/*
+						https://wp-kama.ru/function/wp_update_user
+						Базовые поля, которые можно обновить:
 
+						$userdata = [
+							'ID'              => 1,
+							'user_pass'       => '',
+							'user_nicename'   => '',
+							'user_url'        => '',
+							'user_email'      => '',
+							'display_name'    => '',
+							'nickname'        => '',
+							'first_name'      => '',
+							'last_name'       => '',
+							'description'     => '',
+							'rich_editing'    => true, // false - выключить визуальный редактор для пользователя.
+							'user_registered' => '',   // дата регистрации (Y-m-d H:i:s)
+							'role'            => '',   // (строка) роль пользователя
+						];
+					*/
+
+					
 					$user_data['ID'] = $user->ID;
 					if ( ! empty( $profile_attributes['mail'] ) ) {
 						$user_data['user_email'] = $profile_attributes['mail'];
@@ -123,6 +145,23 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 							$user_data['user_email'] = $username . '@' . $mo_ldap_local_ldap_email_domain;
 						}
 					}
+					//userdata заполнение
+					//куда записывать position по итогу и Middlename?
+					//надо ли изменять display_name? (отображение имени)
+					//first_name
+					if ( ! empty( $profile_attributes['mail'] ) ) {
+						$user_data['first_name'] = $profile_attributes['firstname'];
+					}
+					//last_name
+					if ( ! empty( $profile_attributes['mail'] ) ) {
+						$user_data['last_name'] = $profile_attributes['lastname'];
+					}
+					//description - должность
+					if ( ! empty( $profile_attributes['mail'] ) ) {
+						$user_data['description'] = $profile_attributes['position'];
+					}
+
+
 
 					wp_update_user( $user_data );
 					return $user;
@@ -142,11 +181,21 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 							$email = $username . '@' . $mo_ldap_local_ldap_email_domain;
 						}
 					}
+					
+					//см выше где wp_update_user
+					//TODO создание пользователя сразу с атрибутами
+					$first_name = ! empty( $profile_attributes['firstname'] ) ? $profile_attributes['firstname'] : '';
+					$last_name = ! empty( $profile_attributes['lastname'] ) ? $profile_attributes['lastname'] : '';
+					$description = ! empty( $profile_attributes['position'] ) ? $profile_attributes['position'] : '';
 
+					
 					$userdata = array(
 						'user_login' => $username,
 						'user_email' => $email,
 						'user_pass'  => $user_password,
+						'first_name' => $first_name,
+						'last_name' => $last_name,
+						'description' => $description
 					);
 					$user_id  = wp_insert_user( $userdata );
 
