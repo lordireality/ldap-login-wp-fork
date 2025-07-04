@@ -149,18 +149,29 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 					//куда записывать position по итогу и Middlename?
 					//надо ли изменять display_name? (отображение имени)
 					//first_name
-					if ( ! empty( $profile_attributes['mail'] ) ) {
+					if ( ! empty( $profile_attributes['firstname'] ) ) {
 						$user_data['first_name'] = $profile_attributes['firstname'];
 					}
 					//last_name
-					if ( ! empty( $profile_attributes['mail'] ) ) {
+					if ( ! empty( $profile_attributes['lastname'] ) ) {
 						$user_data['last_name'] = $profile_attributes['lastname'];
 					}
 					//description - должность
-					if ( ! empty( $profile_attributes['mail'] ) ) {
+					if ( ! empty( $profile_attributes['position'] ) ) {
 						$user_data['description'] = $profile_attributes['position'];
 					}
 
+
+					//display_name
+					if ( ! empty( $profile_attributes['lastname'] ) ) {
+						$user_data['display_name'] = $profile_attributes['lastname'];
+						if ( ! empty( $profile_attributes['firstname'] ) ) {
+							$user_data['display_name'] = $user_data['display_name'].' '.$profile_attributes['firstname'];
+							if ( ! empty( $profile_attributes['middlename'] ) ) {
+								$user_data['display_name'] = $user_data['display_name'].' '.$profile_attributes['middlename'];
+							}
+						}
+					}
 
 
 					wp_update_user( $user_data );
