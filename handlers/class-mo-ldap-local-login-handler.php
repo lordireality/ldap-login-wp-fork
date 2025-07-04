@@ -194,11 +194,10 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 					}
 					
 					//см выше где wp_update_user
-					//TODO создание пользователя сразу с атрибутами
 					$first_name = ! empty( $profile_attributes['firstname'] ) ? $profile_attributes['firstname'] : '';
 					$last_name = ! empty( $profile_attributes['lastname'] ) ? $profile_attributes['lastname'] : '';
 					$description = ! empty( $profile_attributes['position'] ) ? $profile_attributes['position'] : '';
-
+					$middlename  = ! empty( $profile_attributes['middlename'] ) ? $profile_attributes['middlename'] : '';
 					
 					$userdata = array(
 						'user_login' => $username,
@@ -206,7 +205,8 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 						'user_pass'  => $user_password,
 						'first_name' => $first_name,
 						'last_name' => $last_name,
-						'description' => $description
+						'description' => $description,
+						'display_name' => $last_name.' '.$first_name.' '.$middlename
 					);
 					$user_id  = wp_insert_user( $userdata );
 
