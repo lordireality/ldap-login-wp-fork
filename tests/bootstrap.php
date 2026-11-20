@@ -4,6 +4,10 @@
  * Run with: php tests/run.php
  */
 
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
+
 define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 
 $GLOBALS['test_state'] = array(
