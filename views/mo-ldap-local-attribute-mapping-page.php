@@ -107,9 +107,17 @@
 								<input type="text" id="ldap_intranet_attribute_position" name="mo_ldap_position_attribute" placeholder="Введите наименование атрибута Должность" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_position_attribute' ) ); ?>">
 							</div>
 						</div>
-
-
-
+						<div class="mo_ldap_premium_feature_each_feature">
+							<div class="mo_ldap_premium_freature_input_common">
+								<label for="ldap_intranet_attribute_photo" class="mo_ldap_input_label_text">Фотография профиля</label>
+							</div>
+							<div class="mo_ldap_premium_freature_input_common mo_ldap_premium_feature_input">
+								<input type="text" id="ldap_intranet_attribute_photo" name="mo_ldap_photo_attribute" placeholder="Автоматически: thumbnailPhoto / jpegPhoto" aria-describedby="mo_ldap_photo_help" class="mo_ldap_local_input_field1 mo_ldap_local_attribute_mapping_input" value="<?php echo esc_attr( get_option( 'mo_ldap_local_photo_attribute', '' ) ); ?>">
+							</div>
+						</div>
+						<div class="mo_ldap_local_attribute_mapping_email_para">
+							<p id="mo_ldap_photo_help" class="mo_ldap_local_input_paragraph">Оставьте поле пустым для поиска фотографии в thumbnailPhoto, затем jpegPhoto. Можно указать другой атрибут с бинарным изображением. Фотография загружается при успешном LDAP-входе и используется как аватар wpForo и WordPress. Если фотографии нет, текущий аватар сохраняется.</p>
+						</div>
 					</div>
 				</div>
 

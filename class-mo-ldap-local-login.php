@@ -15,6 +15,7 @@ require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-save-option
 require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-configuration-handler.php';
 require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-customer-setup-handler.php';
 require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-user-profile-handler.php';
+require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-avatar-handler.php';
 require_once 'handlers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-local-login-handler.php';
 
 require_once 'helpers' . DIRECTORY_SEPARATOR . 'class-mo-ldap-license-plans-pricing.php';
@@ -27,6 +28,7 @@ use MO_LDAP\Utils\MO_LDAP_Local_Data_Store;
 
 use MO_LDAP\Handlers\Mo_Ldap_Local_Save_Options_Handler;
 use MO_LDAP\Handlers\Mo_Ldap_Local_User_Profile_Handler;
+use MO_LDAP\Handlers\Mo_Ldap_Local_Avatar_Handler;
 use MO_LDAP\Handlers\Mo_Ldap_Local_Login_Handler;
 use MO_LDAP\Handlers\Mo_Ldap_Local_Configuration_Handler;
 
@@ -69,6 +71,7 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login' ) ) {
 		private function mo_ldap_local_initialize_handlers() {
 			$save_options = new Mo_Ldap_Local_Save_Options_Handler();
 			$user_profile = new Mo_Ldap_Local_User_Profile_Handler();
+			$avatar = new Mo_Ldap_Local_Avatar_Handler();
 
 			if ( strcmp( get_option( 'mo_ldap_local_enable_login' ), '1' ) === 0 ) {
 				$mo_ldap_local_login = new Mo_Ldap_Local_Login_Handler();

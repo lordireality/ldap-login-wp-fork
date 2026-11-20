@@ -74,6 +74,13 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				$middlename_attribute = strtolower( get_option( 'mo_ldap_local_middlename_attribute' ) );
 				$position_attribute = strtolower( get_option( 'mo_ldap_local_position_attribute' ) );
 				$search_filter_attribute = strtolower( get_option( 'Filter_search' ) );
+				$photo_attribute = get_option( 'mo_ldap_local_photo_attribute', '' );
+				$photo_attribute = is_string( $photo_attribute ) ? strtolower( trim( $photo_attribute ) ) : '';
+				// Imported settings also pass here: an invalid optional photo mapping must not break login.
+				if ( '' !== $photo_attribute && ! preg_match( '/^(?:[a-z][a-z0-9-]*|[0-9]+(?:\.[0-9]+)+)(?:;[a-z0-9-]+)*$/D', $photo_attribute ) ) {
+					$photo_attribute = '';
+				}
+				$photo_attributes = '' !== $photo_attribute ? array( $photo_attribute ) : array( 'thumbnailphoto', 'jpegphoto' );
 
 				$attr = array();		
 				if ( isset( $email_attribute ) && ! empty( $email_attribute ) ) {
@@ -97,6 +104,7 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 				if ( isset( $position_attribute ) && ! empty( $position_attribute ) ) {
 					array_push( $attr, $position_attribute );
 				}
+				$attr = array_values( array_unique( array_merge( $attr, $photo_attributes ) ) );
 				$username = ldap_escape( $username, '', LDAP_ESCAPE_FILTER );
 
 				$filter = str_replace( '?', $username, $filter );
@@ -179,6 +187,17 @@ if ( ! class_exists( 'Mo_Ldap_Local_Configuration_Handler' ) ) {
 					}
 					if ( ! empty( $position_attribute ) && isset( $entry[0][ $position_attribute ][0] ) ) {
 						$profile_attributes['position'] = $entry[0][ $position_attribute ][0];
+					}
+					// ldap_get_entries() preserves binary values, including embedded NUL bytes.
+					// Some directory servers return a ;binary transfer option in the attribute name.
+					foreach ( $photo_attributes as $attribute ) {
+						$photo_keys = array_unique( array( $attribute, preg_replace( '/;binary$/i', '', $attribute ), $attribute . ';binary' ) );
+						foreach ( $photo_keys as $photo_key ) {
+							if ( isset( $entry[0][ $photo_key ][0] ) && is_string( $entry[0][ $photo_key ][0] ) && '' !== $entry[0][ $photo_key ][0] ) {
+								$profile_attributes['photo'] = $entry[0][ $photo_key ][0];
+								break 2;
+							}
+						}
 					}
 
 					$authentication_response->profile_attributes_list = $profile_attributes;

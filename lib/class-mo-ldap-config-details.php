@@ -43,6 +43,7 @@ if ( ! class_exists( 'MO_LDAP_Config_Details' ) ) {
 		const LASTNAME                      = 'mo_ldap_local_lastname_attribute';
 		const MIDDLENAME                    = 'mo_ldap_local_middlename_attribute';
 		const POSITION                      = 'mo_ldap_local_position_attribute';
+		const PHOTO                         = 'mo_ldap_local_photo_attribute';
 		const PLUGIN_VERSION                = 'mo_ldap_local_current_plugin_version';
 	}
 }

@@ -45,6 +45,7 @@ if ( empty( get_option( 'en_save_config' ) ) || strcasecmp( get_option( 'en_save
 	delete_option( 'mo_ldap_local_middlename_attribute' );
 	//должность
 	delete_option( 'mo_ldap_local_position_attribute' );
+	delete_option( 'mo_ldap_local_photo_attribute' );
 	delete_option( 'mo_ldap_local_directory_server' );
 	delete_option( 'mo_ldap_local_ldap_protocol' );
 	delete_option( 'mo_ldap_local_ldap_server_address' );

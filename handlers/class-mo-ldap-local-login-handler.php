@@ -174,7 +174,10 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 					}
 
 
-					wp_update_user( $user_data );
+					$updated_user_id = wp_update_user( $user_data );
+					if ( ! is_wp_error( $updated_user_id ) && isset( $profile_attributes['photo'] ) ) {
+						Mo_Ldap_Local_Avatar_Handler::sync_photo( $user->ID, $profile_attributes['photo'] );
+					}
 					return $user;
 				} elseif ( ! get_option( 'mo_ldap_local_register_user' ) ) {
 
@@ -214,6 +217,9 @@ if ( ! class_exists( 'Mo_Ldap_Local_Login_Handler' ) ) {
 						$user = get_user_by( 'login', $username );
 
 						update_user_meta( $user->ID, 'mo_ldap_user_dn', $auth_response->user_dn, false );
+						if ( isset( $profile_attributes['photo'] ) ) {
+							Mo_Ldap_Local_Avatar_Handler::sync_photo( $user->ID, $profile_attributes['photo'] );
+						}
 
 						if ( get_option( 'mo_ldap_local_enable_role_mapping' ) ) {
 							$new_registered_user  = true;

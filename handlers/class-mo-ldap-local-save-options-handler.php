@@ -874,10 +874,15 @@ if ( ! class_exists( 'Mo_Ldap_Local_Save_Options_Handler' ) ) {
 					$lastname_attribute      = isset( $_POST['mo_ldap_lastname_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_lastname_attribute'] ) ) : '';
 					$middlename_attribute    = isset( $_POST['mo_ldap_middlename_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_middlename_attribute'] ) ) : '';
 					$position_attribute      = isset( $_POST['mo_ldap_position_attribute'] ) ? sanitize_text_field( wp_unslash( $_POST['mo_ldap_position_attribute'] ) ) : '';
+					$photo_attribute         = isset( $_POST['mo_ldap_photo_attribute'] ) && is_string( $_POST['mo_ldap_photo_attribute'] ) ? strtolower( trim( sanitize_text_field( wp_unslash( $_POST['mo_ldap_photo_attribute'] ) ) ) ) : '';
 
 					$domain_validation_regex = '/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/';
+					$photo_attribute_regex   = '/^(?:[a-z][a-z0-9-]*|[0-9]+(?:\.[0-9]+)+)(?:;[a-z0-9-]+)*$/D';
 					if ( ! preg_match( $domain_validation_regex, $email_domain ) && ! empty( $email_domain ) ) {
 						update_option( 'mo_ldap_local_message', 'Please enter the domain name in valid format' );
+						$this->utils->show_error_message();
+					} elseif ( '' !== $photo_attribute && ! preg_match( $photo_attribute_regex, $photo_attribute ) ) {
+						update_option( 'mo_ldap_local_message', 'Укажите имя LDAP-атрибута фотографии, например thumbnailPhoto или jpegPhoto, либо оставьте поле пустым.' );
 						$this->utils->show_error_message();
 					} else {
 						update_option( 'mo_ldap_local_email_attribute', $email_attribute );
@@ -893,6 +898,7 @@ if ( ! class_exists( 'Mo_Ldap_Local_Save_Options_Handler' ) ) {
 
 						//должность
 						update_option( 'mo_ldap_local_position_attribute', $position_attribute);
+						update_option( 'mo_ldap_local_photo_attribute', $photo_attribute );
 						
 						update_option( 'mo_ldap_local_message', 'Successfully saved LDAP Attribute Configuration' );
 						$this->utils->show_success_message();
